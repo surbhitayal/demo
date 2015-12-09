@@ -1,1 +1,3 @@
-# demo 
+# DEMO
+The following project is aimed at a tutorial showing how ANT/Maven can be combined together. 
+It consists of some sample code, which can then be compiled and packed using ant/maven
