@@ -15,6 +15,7 @@
 	<!-- TODO -->
 	<!-- Need to set the environment variables for the above parameters for development -->
 
+	<!--
 	<distributionManagement>
 		<snapshotRepository>
 			<id>${env.ART_ID}</id>
@@ -28,7 +29,7 @@
 		</repository>
 
 	</distributionManagement>
-
+-->
 	<dependencies>
 
 <!--  <dependency>
