@@ -4,7 +4,7 @@
 	<groupId>org.demo</groupId>
 	<artifactId>utilities</artifactId>
 	<packaging>jar</packaging>
-	<version>1.87.0</version>
+	<version>1.92.0</version>
 	<name>utilities</name>
 	<url>http://maven.apache.org</url>
 
