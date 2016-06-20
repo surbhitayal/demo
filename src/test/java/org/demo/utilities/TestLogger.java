@@ -73,13 +73,18 @@ public class TestLogger {
                 try { 
                         ExceptionThrower g = new ExceptionThrower(); 
                         g.doCheck();
+
                 }
                 catch (Exception e){
                         LoggerStackTraceUtil util = new LoggerStackTraceUtil();
                         s = util.getErrorMessage(e); 
                 }
-                LOG.info(s);
-                assert(s.contains("TESTMESSAGE"));  
+				finally { 
+						LOG.info(s);
+						System.out.println("***** "+s); 
+						assert(s.contains("TEST MESSAGE"));  
+
+				}
         }
 
 }

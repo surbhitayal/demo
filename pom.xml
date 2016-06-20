@@ -63,7 +63,7 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
-			<version>4.11</version>
+			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
 
@@ -102,159 +102,44 @@
 
 	</dependencies>
 	<build>
-
-		<directory>${project.basedir}/target</directory>
-		<outputDirectory>${project.build.directory}/classes</outputDirectory>
-		<finalName>${project.artifactId}-${project.version}</finalName>
-		<testOutputDirectory>${project.build.directory}/test-classes</testOutputDirectory>
-		<sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
-		<scriptSourceDirectory>src/main/scripts</scriptSourceDirectory>
-		<testSourceDirectory>${project.basedir}/src/main/test/java</testSourceDirectory>
-		<resources>
-
-		</resources>
-		<!-- notice: for simple jar all of below will be commented -->
-
-		<plugins>
+	<!-- removed a whole bunch of stuff 
+			 for why: see: http://blog.joda.org/2014/02/turning-off-doclint-in-jdk-8-javadoc.html
+		--> 
+		  <plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.2</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-				<version>3.2</version>
-				<executions>
-					<execution>
-						<phase>reporting</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<verbose>false</verbose>
-					<printFailingErrors>true</printFailingErrors>
-					<failOnViolation>false</failOnViolation>
-					<minimumPriority>5</minimumPriority>
-					<maximumPriority>5</maximumPriority>
-					<rulesets>
-						<ruleset>rulesets/java/basic.xml</ruleset>
-						<ruleset>rulesets/java/unusedcode.xml</ruleset>
-						<ruleset>rulesets/java/braces.xml</ruleset>
-						<ruleset>rulesets/java/design.xml</ruleset>
-						<ruleset>rulesets/java/optimizations.xml</ruleset>
-						<ruleset>rulesets/java/codesize.xml</ruleset>
-						<ruleset>rulesets/java/imports.xml</ruleset>						
-
-					</rulesets>
-					<targetJdk>1.7</targetJdk>
-				</configuration>
+				<artifactId>maven-javadoc-plugin</artifactId>
+					<configuration>
+						<additionalparam>-Xdoclint:none</additionalparam>
+					</configuration>
 			</plugin>
 			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>2.3</version>
-			</plugin>
-			<!-- Jar plugin used to update the manifest details.. -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.5</version>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
 				<configuration>
-					<archive>
-						<manifest>
-							<addClasspath>true</addClasspath>
-						</manifest>
-						<manifestEntries>
-							<mode>${environment}</mode>
-							<version>${project.version}</version>
-							<os-builder>${env.USERNAME} on ${env.USERDOMAIN}</os-builder>
-							<Created-By>${env.USERNAME}</Created-By>
-						</manifestEntries>
-					</archive>
+					<parallel>methods</parallel>
+					<threadCount>10</threadCount>
+					<includes>
+						<include>**/Test*.java</include>
+						<include>**/Test.java</include>
+						<include>**/TestCase.java</include>
+					</includes>
+					<excludes>
+						<exclude>**/*Abstract*Test.java</exclude>
+					</excludes>
 				</configuration>
-
 			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>3.0.0</version>
-				<configuration>
-					<effort>Max</effort>
-					<threshold>High</threshold>
-					<xmlOutput>true</xmlOutput>
-					<debug>false</debug>
-					<failOnError>false</failOnError>
-					<trace>false</trace>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>reporting</phase>
-						<goals>
-							<goal>check</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			 <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-site-plugin</artifactId>
-	  <version>3.3</version>
-      <configuration>
-        <reportPlugins>
-          <plugin>
-            <groupId>org.codehaus.mojo</groupId>
-            <artifactId>findbugs-maven-plugin</artifactId>
-          </plugin>
-		  <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-			</plugin>
-        </reportPlugins>
-		<outputDirectory>${pmdsite}\${project.artifactId}</outputDirectory>
-      </configuration>
-    </plugin>
-		</plugins>
-
-
+		  </plugins>
+	  
 	</build>
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-pmd-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jxr-plugin</artifactId>
-				<version>2.3</version>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				
-			</plugin>
-
-			
-
-		</plugins>
-	</reporting>
-
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<!-- Set the Build Target in the Environment Variables. -->
 		<!--  Set the environment BUILD_JDK_VERSION=1.6 -->
-		<maven.compiler.source>1.6</maven.compiler.source>
-		<maven.compiler.target>1.6</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 		<skipTests>false</skipTests>
 	</properties>
 

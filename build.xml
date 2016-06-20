@@ -167,8 +167,9 @@
           depends="compile-tests" 
           description="Runs the test cases">
     <mkdir dir="${maven.test.reports}"/>
-    <junit printSummary="yes" haltonerror="false" haltonfailure="false" fork="true" dir=".">
-      <sysproperty key="basedir" value="."/>
+	<!-- fixed issue of failing on test but only after all test cases run --> 
+    <junit printSummary="yes" haltonerror="false" haltonfailure="false" fork="true" dir="." failureproperty="test.failed">
+	 <sysproperty key="basedir" value="."/>
       <formatter type="xml"/>
       <formatter type="plain" usefile="false"/>
      <classpath>
@@ -176,7 +177,7 @@
         <pathelement location="${maven.build.outputDir}"/>
         <pathelement location="${maven.build.testOutputDir}"/>
       </classpath>
-      <batchtest skipNonTests="false" todir="${maven.test.reports}">
+      <batchtest skipNonTests="true" todir="${maven.test.reports}">
         <fileset dir="${maven.build.testDir}">
           <include name="**/Test*.java"/>
           <include name="**/*Test.java"/>
@@ -185,6 +186,7 @@
         </fileset>
       </batchtest>
     </junit>
+	<fail message="Test failure detected, check test results." if="test.failed" />
   </target>
 
   <target name="test-junit-present" description="Checks if JUNIT is present">
