@@ -105,6 +105,12 @@ public class TestGenericComparator
     }
 
 
+	    public void testGenericFailure() {
+            
+            assertEquals("Rajan", "Sriram"); 
+    }
+
+	
     /**
      * Test for Sorting by Emp ID Ascending
      */
