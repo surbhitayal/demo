@@ -190,7 +190,7 @@
   </target>
 
   
-  <target name="xtest" 
+  <target name="mydemotest" 
           depends="compile-tests" 
           description="Runs the test cases">
     <mkdir dir="${maven.test.reports}"/>
