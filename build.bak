@@ -13,10 +13,7 @@
 	<property name="installpath.pmd" value="${env.PMD_HOME}/lib"/> 
 	<property name="pmd.installpath" value="${env.PMD_HOME}/lib"/>
 	<property name="pmd.classpath" value="${env.PMD_HOME}/lib"/>
-	  <!-- For Cobertura --> 
-	  <property name="lib.cobertura.dir" value="c:/apps/cobertura-1.9.4.1" />
-	  <property name="cobertura.jar.file" value="${lib.cobertura.dir}/cobertura.jar" />
-		<path id="pmd.classpath">
+	<path id="pmd.classpath">
 				<fileset dir="${pmd.installpath}"/>
 		</path>
 		<taskdef name="pmd" classname="net.sourceforge.pmd.ant.PMDTask" classpathref="pmd.classpath"/>
@@ -26,8 +23,7 @@
 		       classpathref="maven-ant-tasks.classpath" />
 		<path id="ant.contrib.classpath" path="${ant.home}/lib/ant-contrib.jar"/>
 		<typedef resource="net/sf/antcontrib/antlib.xml" classpathref="ant.contrib.classpath"/>
-
-
+			
   <!-- ====================================================================== -->
   <!-- Build environment properties                                           -->
   <!-- ====================================================================== -->
@@ -77,30 +73,17 @@
    <property name="sonar.projectKey" value="${ant.project.name}"/>
    <property name="sonar.projectName" value="${ant.project.name}"/>
    <property name="sonar.projectVersion" value="${actualversion}"/>
-   <property name="sonar.sources" value="${build.basesrcdir}/src/main/java"/>
-   <!-- For Cobertura --> 
-   <property name="cob.ser.file" value="cobertura.ser" />
-   <property name="cobertura.dir" value="./cobertura" />
-   <property name="cob.instrumented.dir" value="${cobertura.dir}/instrumented" />
-   <property name="cob.reports.dir" value="${cobertura.dir}/reports" />
-   <property name="cob.reports.xml.dir" value="${cob.reports.dir}/junit-xml" />
-   <property name="cob.reports.html.dir" value="${cob.reports.dir}/junit-html" />
-   <property name="cob.coverage.xml.dir" value="${cob.reports.dir}/cobertura-xml" />
-   <property name="cob.coverage.html.dir" value="${cob.reports.dir}/cobertura-html" />
-
-	
+   <property name="sonar.sources" value="${build.basesrcdir}/src/main/java"/> 
 	<path id="libpath">
 		<fileset dir="${project.3rdpartylibdir}"/>
 	</path>
 	<path id="build.test.classpath">
 			<pathelement location="${project.3rdpartylibdir}/junit-4.11.jar"/>
 	</path>
-
    <echo message="***************************************************************************"/>
    <echo message="Start the build for: ${ant.project.name} "/>
    <echo message="Base Dir: ${build.basesrcdir} ${actualbuildtype}"/> 
    <mkdir dir="${project.3rdpartylibdir}"/>
-   <echo message="PMD Libraries installed in: ${pmd.installpath}"/>
    <echo message="***************************************************************************"/>
    <echo message="Skip Test? ${maven.test.skip}"/>
 
@@ -114,8 +97,6 @@
 		<delete dir="${maven.reporting.outputDirectory}"/>
   	    <delete dir="./.sonar"/> 
   	    <delete dir="reports"/>
-  	    <delete file="${cob.ser.file}"/>
-  	    <delete dir="${cobertura.dir}"/>
   </target>
 
    <!-- ======================================================================  -->
@@ -135,7 +116,7 @@
   <!-- ====================================================================== -->
   <!-- Compilation target                                                     -->
   <!-- ====================================================================== -->
-  <target name="compile" depends="maven_dep_copy" description="Compiles the code. Does a validation on PMD Rules">
+  <target name="compile" depends="maven_dep_copy" description="Compiles the code.">
     <mkdir dir="${maven.build.outputDir}"/>
     <javac includeantruntime="false" destdir="${maven.build.outputDir}" 
            nowarn="false"            debug="true" 
@@ -172,7 +153,6 @@
 	        <classpath>
       		<fileset dir="${project.3rdpartylibdir}"/>
 			<pathelement location="${maven.build.outputDir}"/>
-	        <fileset dir="${lib.cobertura.dir}"/>
       </classpath>
     </javac>
     <copy todir="${maven.build.testOutputDir}">
@@ -187,8 +167,9 @@
           depends="compile-tests" 
           description="Runs the test cases">
     <mkdir dir="${maven.test.reports}"/>
-    <junit printSummary="yes" haltonerror="false" haltonfailure="true" fork="true" dir=".">
-      <sysproperty key="basedir" value="."/>
+	<!-- fixed issue of failing on test but only after all test cases run --> 
+    <junit printSummary="yes" haltonerror="false" haltonfailure="false" fork="true" dir="." failureproperty="test.failed">
+	 <sysproperty key="basedir" value="."/>
       <formatter type="xml"/>
       <formatter type="plain" usefile="false"/>
      <classpath>
@@ -196,7 +177,7 @@
         <pathelement location="${maven.build.outputDir}"/>
         <pathelement location="${maven.build.testOutputDir}"/>
       </classpath>
-      <batchtest skipNonTests="false" todir="${maven.test.reports}">
+      <batchtest skipNonTests="true" todir="${maven.test.reports}">
         <fileset dir="${maven.build.testDir}">
           <include name="**/Test*.java"/>
           <include name="**/*Test.java"/>
@@ -205,8 +186,37 @@
         </fileset>
       </batchtest>
     </junit>
+	<fail message="Test failure detected, check test results." if="test.failed" />
   </target>
 
+  
+  <target name="mydemotest" 
+          depends="compile-tests" 
+          description="Runs the test cases">
+    <mkdir dir="${maven.test.reports}"/>
+	<!-- fixed issue of failing on test but only after all test cases run --> 
+    <junit printSummary="yes" haltonerror="false" haltonfailure="false" fork="true" dir="." failureproperty="test.failed">
+	 <sysproperty key="basedir" value="."/>
+      <formatter type="xml"/>
+      <formatter type="plain" usefile="false"/>
+     <classpath>
+     	<fileset dir="${project.3rdpartylibdir}"/>
+        <pathelement location="${maven.build.outputDir}"/>
+        <pathelement location="${maven.build.testOutputDir}"/>
+      </classpath>
+      <batchtest skipNonTests="true" todir="${maven.test.reports}">
+        <fileset dir="${maven.build.testDir}">
+          <include name="**/Test*.java"/>
+          <include name="**/*Test.java"/>
+          <include name="**/*TestCase.java"/>
+          <exclude name="**/*Abstract*Test.java"/>
+        </fileset>
+      </batchtest>
+    </junit>
+	<fail message="Test failure detected, check test results." if="test.failed" />
+  </target>
+
+  
   <target name="test-junit-present" description="Checks if JUNIT is present">
     <available classname="junit.framework.Test" property="junit.present" classpathref="build.test.classpath"/>
   	<echo message="${junit.present}"/>
@@ -261,32 +271,6 @@
              linksource="false" 
              breakiterator="false"/>
   </target>
-
-	  <!-- ====================================================================== -->
-	  <!-- PMD Report                                                             -->
-	  <!-- ====================================================================== -->
-		<target name="pmdall" description="Generates PMD Reported issues list as a browsable HTML">
-		<mkdir dir="${maven.reporting.outputDirectory}"/>
-		<pmd shortFilenames="true" failonerror="false" failOnRuleViolation="false" minimumPriority="5" failuresPropertyName="pmderrors" rulesetfiles="${maven.build.pmddir}/ruleset_j2ee.xml,${maven.build.pmddir}/ruleset_basics.xml">				<sourceLanguage name="java" version="1.6"/>
-				<formatter type="xml" toFile="${maven.reporting.outputDirectory}/pmd_report.xml">
-						<param name="linkPrefix" value="http://pmd.sourceforge.net/xref/"/>
-				</formatter>
-				<fileset dir="${maven.build.srcDir}"/>
-		</pmd>
-		<xslt in="${maven.reporting.outputDirectory}/pmd_report.xml" style="${maven.build.pmddir}/pmd.xsl" out="${maven.reporting.outputDirectory}/pmd_report_${ant.project.name}.html" />
-		<delete file="${maven.reporting.outputDirectory}/pmd_report.xml"/>
-		  	<if>
-		  					 <equals arg1="${pmderrors}" arg2="$${pmderrors}"/>
-		  					 <then>
-		  					 	<property name="pmdreporterrcnt" value="0"/>
-		  					</then> 
-		  					 	<else>
-		  					 		<property name="pmdreporterrcnt" value="${pmderrors}"/>
-		  					    </else>
-		  	</if>
-
-		<echo message="Number of PMD Errors: ${pmdreporterrcnt}"/>
-	</target>
 
   <!-- ====================================================================== -->
   <!-- Package target                                                         -->
@@ -380,85 +364,76 @@
 	<sonar:sonar />
 	</target> 
 
-  <!-- ====================================================================== -->
-  <!-- Copy files required for instrumentation                                -->
-  <!-- ====================================================================== -->
 	
-	<target name="prepare" depends="clean, maven_dep_copy">
-	    <mkdir dir="${maven.reporting.outputDirectory}" />
-	    <!-- cobertura directories -->
-	    <mkdir dir="${cobertura.dir}" />
-	    <mkdir dir="${cob.instrumented.dir}" />
-	    <mkdir dir="${cob.reports.xml.dir}" />
-	    <mkdir dir="${cob.reports.html.dir}" />
-	    <mkdir dir="${cob.coverage.xml.dir}" />
-	    <mkdir dir="${cob.coverage.html.dir}" />
-		<!-- WE DO NOT HAVE LIBS IN OUR APPLICTION - SO WE DEFINE THE TASK AFTER GETTING THE FILE --> 
-		<path id="cobertura.classpath">
-			<fileset dir="${lib.cobertura.dir}">
-			        <include name="cobertura.jar" />
-			        <include name="lib/**/*.jar" />
-			    </fileset>
-		    <fileset dir="${project.3rdpartylibdir}"/>
-		  </path>
-		  <taskdef resource="tasks.properties" classpathref="cobertura.classpath"/>
-	  </target>
-	
-  <!-- ====================================================================== -->
-  <!-- Do Actual Instrumentation                                              -->
-  <!-- ====================================================================== -->
+	 <!-- ====================================================================== -->
+	 <!-- Validates PMD rules for specified cutoff limit                         -->
+	 <!-- ====================================================================== -->
+	<target name="validatepmd" description="Validates PMD Rules for specified Cutoff Limit">
+		<if>
+			<equals arg1="${delta}" arg2="$${delta}"/>
+			<then>
+				<property name="deltadiff" value="0"/>
+			</then> 
+			<else>
+			  	<property name="deltadiff" value="${delta}"/>
+			</else>
+		</if>
+		<echo message="***** Allowable PMD issues: ${deltadiff}"/> 
+		 <pmd shortFilenames="true" failonerror="false" failOnRuleViolation="false" minimumPriority="5" failuresPropertyName="pmd_errors" rulesetfiles="${maven.build.pmddir}/ruleset_basics.xml,${maven.build.pmddir}/ruleset_security.xml">
+		  <sourceLanguage name="java" version="1.6"/>
+		  <fileset dir="${maven.build.srcDir}"/>
+		 </pmd>
+		<script language="javascript">
+						    <![CDATA[
+						        var pmd_errors     = project.getProperty("pmd_errors"); 
+			                    if (pmd_errors==null) { 
+                          			project.setProperty("pmd_errors","0");
+			                         pmd_errors = 0; 
+								} 
+						        var max_allowed    = project.getProperty("deltadiff"); 
+				                project.setProperty('test', 'max:'+max_allowed + ':,pmd_error(s):'+pmd_errors); 
+						    ]]>
+		</script>
+			<echo message="${test}"/>
+			<if>
+				<islessthan arg1="${deltadiff}" arg2="${pmd_errors}"/>
+				 	<then>
+							<echo message="***************************************************************************"/>
+							<echo message="Stopped the build for: ${ant.project.name}, Number of errors: ${pmd_errors}"/>
+							<echo message="***************************************************************************"/>
+							<fail message="Number of errors from PMD exceeds critical limit of ${deltadiff}"/>
+					</then>
+				<else> 
+						<echo message="Number of PMD Errors (${pmd_errors}) is &lt;= allowed errors (${deltadiff}). GOOD WORK!"/>
+				</else> 
+			</if>
+		</target>
 
-	<target name="instrument" depends="prepare,compile-tests">
-		<echo>Class Path: ${toString:cobertura.classpath}</echo>
-	    <cobertura-instrument todir="${cob.instrumented.dir}">
-	      <fileset dir="${maven.build.outputDir}">
-	        <include name="**/*.class"/>
-	      </fileset>
-	    </cobertura-instrument>
-	  </target>
-	
-  <!-- ====================================================================== -->
-  <!-- Call Instrumentation                                                   -->
-  <!-- ====================================================================== -->
+	  <!-- ====================================================================== -->
+	  <!-- PMD Report                                                             -->
+	  <!-- ====================================================================== -->
+		<target name="pmdreport" description="Generates PMD Reported issues list as a browsable HTML">
+			<echo message="${maven.build.pmddir}/ruleset_basics.xml"/>
+		<mkdir dir="${maven.reporting.outputDirectory}"/>
+		<pmd shortFilenames="true" failonerror="false" failOnRuleViolation="false" minimumPriority="5" failuresPropertyName="pmderrors" rulesetfiles="${maven.build.pmddir}/ruleset_j2ee.xml,${maven.build.pmddir}/ruleset_basics.xml">				<sourceLanguage name="java" version="1.6"/>
+				<formatter type="xml" toFile="${maven.reporting.outputDirectory}/pmd_report.xml">
+						<param name="linkPrefix" value="http://pmd.sourceforge.net/xref/"/>
+				</formatter>
+				<fileset dir="${maven.build.srcDir}"/>
+		</pmd>
+		<xslt in="${maven.reporting.outputDirectory}/pmd_report.xml" style="${maven.build.pmddir}/pmd.xsl" out="${maven.reporting.outputDirectory}/pmd_report_${ant.project.name}.html" />
+		<delete file="${maven.reporting.outputDirectory}/pmd_report.xml"/>
+		  	<if>
+		  					 <equals arg1="${pmderrors}" arg2="$${pmderrors}"/>
+		  					 <then>
+		  					 	<property name="pmdreporterrcnt" value="0"/>
+		  					</then> 
+		  					 	<else>
+		  					 		<property name="pmdreporterrcnt" value="${pmderrors}"/>
+		  					    </else>
+		  	</if>
 
-	  <target name="cover-test" depends="instrument">
-	  	<echo message="Instrumented dir:${cob.instrumented.dir}"/>
-	  	<junit printSummary="yes" haltonerror="false" haltonfailure="false" fork="yes" dir=".">
-	  	      <sysproperty key="basedir" value="."/>
-	  	    <sysproperty key="net.sourceforge.cobertura.datafile"
-	  	        file="${cob.ser.file}" />
-	  	    <!--
-	  	        Note the classpath order: instrumented classes are before the
-	  	        original (uninstrumented) classes.  This is important.
-	  	    -->
-	  	    <classpath location="${cob.instrumented.dir}" />
-	  	    <classpath location="${maven.build.outputDir}" />
-	  		<classpath refid="cobertura.classpath" />
-		  	  <classpath>
-	  	     	<fileset dir="${project.3rdpartylibdir}"/>
-	  	        <pathelement location="${maven.build.testOutputDir}"/>
-	  	      </classpath>
-	  	   
-	        <batchtest skipNonTests="true" todir="${maven.test.reports}">
-	          <fileset dir="${maven.build.testDir}">
-	            <include name="**/Test*.java"/>
-	            <include name="**/*Test.java"/>
-	            <include name="**/*TestCase.java"/>
-	            <exclude name="**/*Abstract*Test.java"/>
-	          </fileset>
-	        </batchtest>
-
-		</junit>
-	  </target>
-	
-  <!-- ====================================================================== -->
-  <!-- Report on this....                                                     -->
-  <!-- ====================================================================== -->
-
-	  <!-- run this target to generate the coverage reports -->
-	  <target name="coverage-report" depends="cover-test">
-	    <cobertura-report srcdir="${src.dir}" destdir="${cobertura.dir}"/>
-	  </target>
-
-
+		<echo message="Number of PMD Errors: ${pmdreporterrcnt}"/>
+	</target>
+		
 </project>
