@@ -107,6 +107,7 @@ public class TestGenericComparator
     /**
      * Test for Sorting by Emp ID Ascending
      */
+	 @Ignore("testSortIDAsc")
     public void testSortEmpIDAsc() {
             ArrayList myData = new ArrayList(); initialize(myData);
 
@@ -116,7 +117,7 @@ public class TestGenericComparator
 
 
     /**
-     * Test for Sorting by Emp ID Descending...
+     * Test for Sorting besy Emp ID Descending...
      */
 
     public void testSortEmpIDDesc() {
