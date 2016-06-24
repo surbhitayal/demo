@@ -31,12 +31,6 @@
 
 	<dependencies>
 
-<!--  <dependency>
-	<groupId>net.sourceforge.cobertura</groupId>
-	<artifactId>cobertura</artifactId>
-	<version>1.9.4.1</version>
-</dependency>
- -->	
 		<!-- LOGGING -->
 		<dependency>
 	<groupId>log4j</groupId>
@@ -109,6 +103,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
 					<configuration>
 						<additionalparam>-Xdoclint:none</additionalparam>
 					</configuration>
@@ -135,7 +130,7 @@
 			<plugin>
 			<groupId>org.codehaus.mojo</groupId>
 	<artifactId>cobertura-maven-plugin</artifactId>
-<version>2.5.1</version>
+<version>2.7</version>
 <configuration>
 <formats>
 <format>html</format></formats>

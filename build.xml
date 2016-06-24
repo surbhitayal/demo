@@ -260,7 +260,8 @@
              serialwarn="false" 
              charset="ISO-8859-1" 
              linksource="false" 
-             breakiterator="false"/>
+             breakiterator="false"
+             additionalparam="-Xdoclint:none" />
   </target>
 
 	  <!-- ====================================================================== -->
