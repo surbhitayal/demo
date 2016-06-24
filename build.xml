@@ -424,7 +424,7 @@
 
 	  <target name="cover-test" depends="instrument">
 	  	<echo message="Instrumented dir:${cob.instrumented.dir}"/>
-	  	<junit printSummary="yes" haltonerror="false" haltonfailure="false" fork="yes" dir=".">
+	  	<junit printSummary="yes" haltonerror="no" haltonfailure="no" fork="yes" dir=".">
 	  	      <sysproperty key="basedir" value="."/>
 	  	    <sysproperty key="net.sourceforge.cobertura.datafile"
 	  	        file="${cob.ser.file}" />
@@ -440,7 +440,7 @@
 	  	        <pathelement location="${maven.build.testOutputDir}"/>
 	  	      </classpath>
 	  	   
-	        <batchtest skipNonTests="true" todir="${maven.test.reports}">
+	        <batchtest skipNonTests="false" todir="${maven.test.reports}">
 	          <fileset dir="${maven.build.testDir}">
 	            <include name="**/Test*.java"/>
 	            <include name="**/*Test.java"/>
