@@ -187,7 +187,7 @@
           depends="compile-tests" 
           description="Runs the test cases">
     <mkdir dir="${maven.test.reports}"/>
-    <junit printSummary="yes" haltonerror="false" haltonfailure="true" fork="true" dir=".">
+    <junit haltonerror="no" failureproperty="test.failed" haltonfailure="no" printSummary="yes"  fork="true" dir=".">
       <sysproperty key="basedir" value="."/>
       <formatter type="xml"/>
       <formatter type="plain" usefile="false"/>
@@ -205,6 +205,7 @@
         </fileset>
       </batchtest>
     </junit>
+    <fail message="Test failure detected, check test results." if="test.failed" />
   </target>
 
   <target name="test-junit-present" description="Checks if JUNIT is present">
@@ -265,7 +266,7 @@
 	  <!-- ====================================================================== -->
 	  <!-- PMD Report                                                             -->
 	  <!-- ====================================================================== -->
-		<target name="pmdall" description="Generates PMD Reported issues list as a browsable HTML">
+		<target name="pmdreport" description="Generates PMD Reported issues list as a browsable HTML">
 		<mkdir dir="${maven.reporting.outputDirectory}"/>
 		<pmd shortFilenames="true" failonerror="false" failOnRuleViolation="false" minimumPriority="5" failuresPropertyName="pmderrors" rulesetfiles="${maven.build.pmddir}/ruleset_j2ee.xml,${maven.build.pmddir}/ruleset_basics.xml">				<sourceLanguage name="java" version="1.6"/>
 				<formatter type="xml" toFile="${maven.reporting.outputDirectory}/pmd_report.xml">
