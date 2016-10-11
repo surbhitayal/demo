@@ -9,8 +9,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -60,10 +58,6 @@ public class StringUtilities {
 	 * Variable to represent the type "STRING"
 	 */
 	private final static String STRING_TYPE ="string";
-	/**
-	 * Logger enabled for the current class
-	 */
-	private static final Logger LOG =LoggerFactory.getLogger(StringUtilities.class);
 
 	/** Primitive type name -> class map. */
 	private static final HashMap<String,Class<?>> PRIMITIVE_NAME_TYPE_MAP = new HashMap<String,Class<?>>();

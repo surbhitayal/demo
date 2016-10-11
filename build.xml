@@ -164,8 +164,8 @@
     <javac includeantruntime="false" destdir="${maven.build.testOutputDir}" 
            nowarn="false"           debug="true" 
            optimize="false"        deprecation="true" 
-           target="1.6"                  verbose="false" 
-           fork="false"                 source="1.6">
+           target="1.8"                  verbose="false" 
+           fork="false"                 source="1.7">
       <src>
         <pathelement location="${maven.build.testDir}"/>
       </src>
@@ -205,6 +205,14 @@
         </fileset>
       </batchtest>
     </junit>
+  	
+    <junitreport todir="${maven.test.reports}">
+         <fileset dir="${maven.test.reports}">
+             <include name="TEST-*.xml" />
+         </fileset>
+         <report format="noframes" todir="${maven.test.reports}\html\" />
+     </junitreport>
+  	
     <fail message="Test failure detected, check test results." if="test.failed" />
   </target>
 

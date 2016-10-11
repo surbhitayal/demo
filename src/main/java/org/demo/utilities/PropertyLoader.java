@@ -6,8 +6,6 @@ import java.util.Locale;
 import java.util.Properties;
 import java.util.ResourceBundle;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 /**
  * Looks up a resource named 'name' in the classpath. The resource must map
  * to a file with .properties extention. The name is assumed to be absolute
@@ -33,10 +31,6 @@ public class PropertyLoader
 	private static final boolean LOAD_AS_RESOURCE_BUNDLE = false; 
 	private static final String SUFFIX = ".properties";
 
-	/**
-	 * Logger enabled for the current class
-	 */
-	private static final Logger LOG =LoggerFactory.getLogger(PropertyLoader.class);
 
 	/** 
 	 * A convenience overload of {@link #loadProperties(String, ClassLoader)} 
