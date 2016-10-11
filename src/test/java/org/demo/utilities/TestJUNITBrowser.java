@@ -34,7 +34,8 @@ public void test_one() throws FailingHttpStatusCodeException, MalformedURLExcept
         final HtmlPage page = webClient.getPage("http://htmlunit.sourceforge.net");
         //assertTrue(page.getTitleText().contains("Welcome to HtmlUnit"));
       //System.out.println(page.getTitleText());
-      Assert.assertEquals("HtmlUnit – Welcome to HtmlUnit", page.getTitleText());
+      //Assert.assertEquals("HtmlUnit – Welcome to HtmlUnit", page.getTitleText());
+        Assert.assertTrue(page.getTitleText().contains("Welcome to HtmlUnit"));
         final String pageAsXml = page.asXml();
         //System.out.println(page.asXml());
        Assert.assertTrue(pageAsXml.contains("All rights reserved."));

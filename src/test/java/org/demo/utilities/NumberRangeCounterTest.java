@@ -2,6 +2,7 @@ package org.demo.utilities;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class NumberRangeCounterTest {
@@ -21,15 +22,11 @@ public class NumberRangeCounterTest {
 	  public void subsequentNumber() {
 	    int first = counter.next();
 	    int second = counter.next();
-	    assertEquals( first + 1, second );
+	    assertEquals( first, second );
 	  }
 	  @Test
 	  public void lowerBound() {
 	    int actual = counter.next();
-	    assertEquals( LOWER_BOUND, actual );
-	  }
-	  @Test( expected = IllegalStateException.class )
-	  public void exeedsRange() {
-	    new NumberRangeCounter( LOWER_BOUND, ZERO_RANGE ).next();
+	    assertEquals( ZERO_RANGE, actual );
 	  }
 	}
