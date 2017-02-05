@@ -1,0 +1,20 @@
+ Volume in drive D is DDRIVE d.txt
+ Volume Serial Number is 8A26-EC4F
+
+ Directory of D:\gitrepos\demo
+
+02/05/2017  06:24 PM    <DIR>          .
+02/05/2017  06:24 PM    <DIR>          ..
+02/05/2017  06:19 PM               674 a.txt
+02/05/2017  06:20 PM               732 b.txt
+01/13/2017  11:51 PM             4,552 build.properties
+02/01/2017  10:02 PM            23,890 build.xml
+02/05/2017  06:22 PM               778 c.txt
+02/05/2017  06:25 PM                 0 d.txt
+02/01/2017  10:02 PM    <DIR>          lib
+01/13/2017  11:51 PM             4,768 pom.xml
+01/13/2017  11:51 PM             1,438 README.md
+01/17/2017  10:31 AM    <DIR>          reports
+01/13/2017  11:51 PM    <DIR>          src
+               8 File(s)         36,832 bytes
+               5 Dir(s)  237,447,127,040 bytes free
