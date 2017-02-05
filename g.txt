@@ -1,7 +1,7 @@
- Volume in drive D is DDRIVE			*********** TERMINAL 2
+ Volume in drive D is DDRIVE			*********** TERMINAL 2 & 1
  Volume Serial Number is 8A26-EC4F
 
- Directory of D:\gitrepos\demo2
+ Directory of D:\gitrepos\demo2 (also d:\gitrepos\demo1) 
 
 02/05/2017  06:51 PM    <DIR>          .
 02/05/2017  06:51 PM    <DIR>          ..
