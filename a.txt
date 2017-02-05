@@ -3,15 +3,24 @@
 
  Directory of D:\gitrepos\demo
 
-02/05/2017  06:13 PM    <DIR>          .
-02/05/2017  06:13 PM    <DIR>          ..
-02/05/2017  06:14 PM                 0 a.txt
+02/05/2017  10:03 PM    <DIR>          .
+02/05/2017  10:03 PM    <DIR>          ..
+02/05/2017  10:05 PM                 0 a.txt
+02/05/2017  10:03 PM             1,095 abc.demo.txt
+02/05/2017  06:20 PM               732 b.txt
 01/13/2017  11:51 PM             4,552 build.properties
 02/01/2017  10:02 PM            23,890 build.xml
+02/05/2017  06:22 PM               778 c.txt
+02/05/2017  06:27 PM               818 d.txt
+02/05/2017  06:47 PM               852 e.txt
+02/05/2017  07:01 PM               908 f.txt
+02/05/2017  09:25 PM               950 g.txt
+02/05/2017  09:29 PM               996 h.txt
 02/01/2017  10:02 PM    <DIR>          lib
 01/13/2017  11:51 PM             4,768 pom.xml
 01/13/2017  11:51 PM             1,438 README.md
 01/17/2017  10:31 AM    <DIR>          reports
 01/13/2017  11:51 PM    <DIR>          src
-               5 File(s)         34,648 bytes
-               5 Dir(s)  237,447,155,712 bytes free
+02/05/2017  09:53 PM             1,042 z.txt
+              14 File(s)         42,819 bytes
+               5 Dir(s)  237,419,573,248 bytes free
