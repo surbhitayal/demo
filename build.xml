@@ -356,8 +356,6 @@
 	  		<zipfileset dir="./lib" prefix="lib"/> 
 	  	</zip>
 		<delete dir="${maven.build.dir}/tmp"/>
-	  	<delete dir="${project.3rdpartylibdir}"/>
-	  	<mkdir dir="${project.3rdpartylibdir}"/>
 	  	<delete file="${maven.build.dir}/../${maven.build.finalName}.zip"/> 
 	  </target>
 
