@@ -1,0 +1,13 @@
+<project name="utilities" default="nulloperation"  basedir=".">
+	<!-- This is a comment --> 
+	<target name="operation2" depends="operation1">
+	  <echo message="TEST TEST TEST"/> 
+	   <echo message="******"/>
+	</target>
+		<target name="operation1">
+	  <echo message="Hello world"/> 
+	  <mkdir dir="d:/tmp/demo"/>
+	</target>
+	<target name="nulloperation" depends="operation2"/> 
+
+</project>

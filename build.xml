@@ -121,7 +121,7 @@
    <!-- ======================================================================  -->
 	<!-- Copy Maven dependencies                                                -->
 	<!-- ====================================================================== -->
-	<target name="maven_dep_copy" depends="clean" description="Copies Maven Dependencies into local Lib folder">
+	<target name="maven_dep_copy" description="Copies Maven Dependencies into local Lib folder">
 	 <artifact:dependencies filesetId="deps.fileset" scopes="provided, test, runtime, compile">
 	      <pom file="pom.xml"/>
 	    </artifact:dependencies>
@@ -467,7 +467,6 @@
 
 	  <!-- run this target to generate the coverage reports -->
 	  <target name="coverage-report" depends="cover-test">
-		<echo message="SRC DIR: ${maven.build.srcDir}"/>
 	    <cobertura-report srcdir="${maven.build.srcDir}" destdir="${cobertura.dir}"/>
 	  </target>
 
