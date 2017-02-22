@@ -14,7 +14,7 @@
 	<property name="pmd.installpath" value="${env.PMD_HOME}/lib"/>
 	<property name="pmd.classpath" value="${env.PMD_HOME}/lib"/>
 	  <!-- For Cobertura --> 
-	  <property name="lib.cobertura.dir" value="c:/apps/cobertura-1.9.4.1" />
+	  <property name="lib.cobertura.dir" value="d:/apps/cobertura-1.9.4.1" />
 	  <property name="cobertura.jar.file" value="${lib.cobertura.dir}/cobertura.jar" />
 		<path id="pmd.classpath">
 				<fileset dir="${pmd.installpath}"/>
@@ -467,7 +467,8 @@
 
 	  <!-- run this target to generate the coverage reports -->
 	  <target name="coverage-report" depends="cover-test">
-	    <cobertura-report srcdir="${src.dir}" destdir="${cobertura.dir}"/>
+		<echo message="SRC DIR: ${maven.build.srcDir}"/>
+	    <cobertura-report srcdir="${maven.build.srcDir}" destdir="${cobertura.dir}"/>
 	  </target>
 
 
